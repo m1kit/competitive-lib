@@ -1,10 +1,15 @@
 package jp.llv.atcoder.lib.structure;
 
 import jp.llv.atcoder.lib.math.BitMath;
+import jp.llv.atcoder.lib.meta.Verified;
 
 import java.util.Arrays;
 import java.util.function.LongBinaryOperator;
 
+@Verified({
+        "http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3356247",
+        "http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3356253",
+})
 public class IntSegmentTree {
 
     private final int n;
@@ -42,20 +47,20 @@ public class IntSegmentTree {
     }
 
     public long query(int l, int r) {
-        long ans = zero;
+        long left = zero, right = zero;
         l += m - 1;
         r += m - 1;
         while (l < r) {
             if ((l & 1) == 0) {
-                ans = op.applyAsLong(ans, tree[l]);
+                left = op.applyAsLong(left, tree[l]);
             }
             if ((r & 1) == 0) {
-                ans = op.applyAsLong(ans, tree[r - 1]);
+                right = op.applyAsLong(tree[r - 1], right);
             }
             l = l / 2;
             r = (r - 1) / 2;
         }
-        return ans;
+        return op.applyAsLong(left, right);
     }
 
 }

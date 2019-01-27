@@ -1,6 +1,7 @@
 package jp.llv.atcoder.lib.structure;
 
 import jp.llv.atcoder.lib.math.BitMath;
+import jp.llv.atcoder.lib.meta.Verified;
 import jp.llv.atcoder.lib.util.ArrayUtil;
 import jp.llv.atcoder.lib.util.function.ObjIntFunction;
 
@@ -8,6 +9,9 @@ import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 
+@Verified({
+        "https://atcoder.jp/contests/arc008/submissions/4094461",
+})
 public class SegmentTree<T, U> {
 
     private final int n;
@@ -47,19 +51,19 @@ public class SegmentTree<T, U> {
     }
 
     public T query(int l, int r) {
-        T ans = zero;
+        T left = zero, right = zero;
         l += m - 1;
         r += m - 1;
         while (l < r) {
             if ((l & 1) == 0) {
-                ans = op.apply(ans, tree[l]);
+                left = op.apply(left, tree[l]);
             }
             if ((r & 1) == 0) {
-                ans = op.apply(ans, tree[r - 1]);
+                right = op.apply(tree[r - 1], right);
             }
             l = l / 2;
             r = (r - 1) / 2;
         }
-        return ans;
+        return op.apply(left, right);
     }
 }

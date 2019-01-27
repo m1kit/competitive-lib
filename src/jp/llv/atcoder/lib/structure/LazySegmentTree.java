@@ -1,6 +1,7 @@
 package jp.llv.atcoder.lib.structure;
 
 import jp.llv.atcoder.lib.math.BitMath;
+import jp.llv.atcoder.lib.meta.Verified;
 import jp.llv.atcoder.lib.util.ArrayUtil;
 import jp.llv.atcoder.lib.util.function.ObjIntFunction;
 
@@ -8,6 +9,9 @@ import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 
+@Verified({
+        "https://atcoder.jp/contests/arc008/submissions/4092007",
+})
 public class LazySegmentTree<T, U> {
 
     private final int n;
