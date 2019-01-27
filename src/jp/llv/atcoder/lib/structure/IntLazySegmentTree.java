@@ -1,12 +1,12 @@
 package jp.llv.atcoder.lib.structure;
 
 import jp.llv.atcoder.lib.math.BitMath;
-import jp.llv.atcoder.lib.meta.Validated;
+import jp.llv.atcoder.lib.meta.Verified;
 import jp.llv.atcoder.lib.util.function.LongIntToLongFunction;
 import java.util.Arrays;
 import java.util.function.LongBinaryOperator;
 
-@Validated({
+@Verified({
         "http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3354722",
         "http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3354723",
         "http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=3354921",

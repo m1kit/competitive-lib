@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 @Documented
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.SOURCE)
-public @interface Validated {
+public @interface Verified {
 
     String[] value() default {};
 
