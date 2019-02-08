@@ -19,7 +19,7 @@ public class MergeSort {
         int destHigh = high;
         low += off;
         high += off;
-        int mid = (low + high) / 2;
+        int mid = low + (high - low) / 2;
         sort(dest, src, low, mid, -off, comparator);
         sort(dest, src, mid, high, -off, comparator);
         if (comparator.compare(src[mid - 1], src[mid]) <= 0) {
@@ -53,7 +53,7 @@ public class MergeSort {
         int destHigh = high;
         low += off;
         high += off;
-        int mid = (low + high) / 2;
+        int mid = low + (high - low) / 2;
         sort(dest, src, low, mid, -off);
         sort(dest, src, mid, high, -off);
         if (src[mid - 1] <= src[mid]) {
@@ -83,7 +83,7 @@ public class MergeSort {
         int destHigh = high;
         low += off;
         high += off;
-        int mid = (low + high) / 2;
+        int mid = low + (high - low) / 2;
         sort(dest, src, low, mid, -off);
         sort(dest, src, mid, high, -off);
         if (src[mid - 1] <= src[mid]) {
@@ -113,7 +113,7 @@ public class MergeSort {
         int destHigh = high;
         low += off;
         high += off;
-        int mid = (low + high) / 2;
+        int mid = low + (high - low) / 2;
         sort(dest, src, low, mid, -off);
         sort(dest, src, mid, high, -off);
         if (src[mid - 1] <= src[mid]) {

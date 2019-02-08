@@ -1,5 +1,7 @@
 package jp.llv.atcoder.lib.sort;
 
+import jp.llv.atcoder.lib.util.ArrayUtil;
+
 import java.util.Comparator;
 
 public class InsertionSort {
@@ -9,9 +11,7 @@ public class InsertionSort {
     static <T> void sort(T[] a, int low, int high, Comparator<? super T> comparator) {
         for (int i = low; i < high; i++) {
             for (int j = i; j > low && comparator.compare(a[j - 1], a[j]) > 0; j--) {
-                T t = a[j];
-                a[j] = a[j - 1];
-                a[j - 1] = t;
+                ArrayUtil.swap(a, j - 1, j);
             }
         }
     }
@@ -27,9 +27,7 @@ public class InsertionSort {
     static void sort(int[] a, int low, int high) {
         for (int i = low; i < high; i++) {
             for (int j = i; j > low && a[j - 1] > a[j]; j--) {
-                int t = a[j];
-                a[j] = a[j - 1];
-                a[j - 1] = t;
+                ArrayUtil.swap(a, j - 1, j);
             }
         }
     }
@@ -41,9 +39,7 @@ public class InsertionSort {
     static void sort(long[] a, int low, int high) {
         for (int i = low; i < high; i++) {
             for (int j = i; j > low && a[j - 1] > a[j]; j--) {
-                long t = a[j];
-                a[j] = a[j - 1];
-                a[j - 1] = t;
+                ArrayUtil.swap(a, j - 1, j);
             }
         }
     }
@@ -55,9 +51,7 @@ public class InsertionSort {
     static void sort(double[] a, int low, int high) {
         for (int i = low; i < high; i++) {
             for (int j = i; j > low && a[j - 1] > a[j]; j--) {
-                double t = a[j];
-                a[j] = a[j - 1];
-                a[j - 1] = t;
+                ArrayUtil.swap(a, j - 1, j);
             }
         }
     }

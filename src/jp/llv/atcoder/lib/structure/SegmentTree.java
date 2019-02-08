@@ -8,6 +8,7 @@ import jp.llv.atcoder.lib.util.function.ObjIntFunction;
 import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
+import java.util.function.IntFunction;
 
 @Verified({
         "https://atcoder.jp/contests/arc008/submissions/4094461",
@@ -22,11 +23,11 @@ public class SegmentTree<T, U> {
     private final BiFunction<T, U, T> up; // 要素の更新
 
 
-    public SegmentTree(T[] array, Class<T> clazz, BinaryOperator<T> op, T zero, BiFunction<T, U, T> up) {
+    public SegmentTree(T[] array, IntFunction<T[]> clazz, BinaryOperator<T> op, T zero, BiFunction<T, U, T> up) {
         this.n = array.length;
         int msb = BitMath.extractMsb(n);
         this.m = n == msb ? msb : (msb << 1);
-        this.tree = ArrayUtil.newInstance(clazz, 2 * m - 1);
+        this.tree = clazz.apply(2 * m - 1);
         this.op = op;
         this.up = up;
         this.zero = zero;

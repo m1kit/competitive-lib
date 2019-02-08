@@ -2,12 +2,12 @@ package jp.llv.atcoder.lib.structure;
 
 import jp.llv.atcoder.lib.math.BitMath;
 import jp.llv.atcoder.lib.meta.Verified;
-import jp.llv.atcoder.lib.util.ArrayUtil;
 import jp.llv.atcoder.lib.util.function.ObjIntFunction;
 
 import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
+import java.util.function.IntFunction;
 
 @Verified({
         "https://atcoder.jp/contests/arc008/submissions/4092007",
@@ -25,7 +25,7 @@ public class LazySegmentTree<T, U> {
     private final U nop; // 更新の併合に関するモノイド
     private final ObjIntFunction<U, U> mul; // 更新の一括併合
 
-    public LazySegmentTree(T[] array, Class<T> elem, Class<U> query, BinaryOperator<T> op, T zero, BiFunction<T, U, T> up,
+    public LazySegmentTree(T[] array, IntFunction<T[]> elem, IntFunction<U[]> query, BinaryOperator<T> op, T zero, BiFunction<T, U, T> up,
                            BinaryOperator<U> merge, U nop,
                            ObjIntFunction<U, U> mul) {
         this.n = array.length;
@@ -37,8 +37,8 @@ public class LazySegmentTree<T, U> {
         this.mul = mul;
         int msb = BitMath.extractMsb(n);
         this.m = n == msb ? msb : (msb << 1);
-        this.tree = ArrayUtil.newInstance(elem, 2 * m - 1);
-        this.lazy = ArrayUtil.newInstance(query, 2 * m - 1);
+        this.tree = elem.apply(2 * m - 1);
+        this.lazy = query.apply(2 * m - 1);
         Arrays.fill(tree, zero);
         System.arraycopy(array, 0, this.tree, m - 1, array.length);
         Arrays.fill(lazy, nop);
@@ -47,7 +47,7 @@ public class LazySegmentTree<T, U> {
         }
     }
 
-    public LazySegmentTree(T[] array, Class<T> elem, Class<U> query, BinaryOperator<T> op, T zero, BiFunction<T, U, T> up,
+    public LazySegmentTree(T[] array, IntFunction<T[]> elem, IntFunction<U[]> query, BinaryOperator<T> op, T zero, BiFunction<T, U, T> up,
                            BinaryOperator<U> merge, U nop) {
         this(array, elem, query, op, zero, up, merge, nop, (q, n) -> q);
     }

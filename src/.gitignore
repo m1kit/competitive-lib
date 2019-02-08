@@ -1,5 +1,3 @@
-# Ignore everything:
 *
-
-# Except for the library:
-!lib/*
+!*/
+!.gitignore

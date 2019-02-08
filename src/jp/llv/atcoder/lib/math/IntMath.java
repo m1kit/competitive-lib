@@ -3,10 +3,7 @@ package jp.llv.atcoder.lib.math;
 import jp.llv.atcoder.lib.math.mod.ModMath;
 
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public final class IntMath {
 
@@ -145,6 +142,19 @@ public final class IntMath {
         return factor;
     }
 
+    public static Set<Long> getFactors(long p) {
+        Set<Long> factors = new HashSet<>();
+        for (long i = 2; p > 1; i++) {
+            if (p % i != 0) {
+                continue;
+            }
+            factors.add(i);
+            while (p % i == 0) {
+                p /= i;
+            }
+        }
+        return factors;
+    }
 
     public static int min(int ... v) {
         return Arrays.stream(v).min().orElseThrow(NoSuchElementException::new);

@@ -6,9 +6,15 @@ public class LongEuclidSolver {
     private LongEuclidSolver() {
     }
 
+    /**
+     * Solves px+qy=0.
+     * @param p
+     * @param q
+     * @return (x, y, gcd(p, q))
+     */
     public static Vec3l solve(long p, long q) {
         if (q == 0) {
-            return new Vec3l(p, 1, 0);
+            return new Vec3l(p, 1, p);
         }
         Vec3l vals = solve(q, p % q);
         long a = vals.y;
