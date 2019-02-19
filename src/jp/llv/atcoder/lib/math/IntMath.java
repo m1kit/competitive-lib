@@ -1,6 +1,7 @@
 package jp.llv.atcoder.lib.math;
 
 import jp.llv.atcoder.lib.math.mod.ModMath;
+import jp.llv.atcoder.lib.meta.Verified;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -40,6 +41,14 @@ public final class IntMath {
         return b;
     }
 
+    public static long gcd(long ... a) {
+        long t = a[0];
+        for (int i = 1; i < a.length; i++) {
+            t = gcd(t, a[i]);
+        }
+        return t;
+    }
+
     public static int lcm(int a, int b) {
         return a / gcd(a, b) * b;
     }
@@ -54,6 +63,14 @@ public final class IntMath {
         return b;
     }
 
+    public static int gcd(int ... a) {
+        int t = a[0];
+        for (int i = 1; i < a.length; i++) {
+            t = gcd(t, a[i]);
+        }
+        return t;
+    }
+
     public static Integer getPrimeFactor(int a) {
         if (a <= 1) {
             return null;
@@ -61,20 +78,6 @@ public final class IntMath {
             return 2;
         }
         for (int i = 3; i * i <= a; i += 2) {
-            if (a % i == 0) {
-                return i;
-            }
-        }
-        return a;
-    }
-
-    public static Long getPrimeFactor(long a) {
-        if (a <= 1) {
-            return null;
-        } else if ((a & 1) == 0) {
-            return 2L;
-        }
-        for (long i = 3; i * i <= a; i += 2) {
             if (a % i == 0) {
                 return i;
             }
@@ -130,30 +133,50 @@ public final class IntMath {
         return true;
     }
 
-    public static Map<Long, Integer> primeFactorize(long p) {Long f = null;
+    public static Map<Long, Integer> primeFactorize(long p) {
         Map<Long, Integer> factor = new HashMap<>();
-        while ((f = IntMath.getPrimeFactor(p)) != null) {
-            factor.merge(f, 1, (x, y) -> x + y);
-            p /= f;
+        if ((p & 1) == 0) {
+            int c = 0;
+            do {
+                c++;
+                p >>= 1;
+            } while ((p & 1) == 0);
+            factor.put(2L, c);
         }
-        if (p > 1) {
-            factor.merge(p, 1, (x, y) -> x + y);
+        for (long i = 3; i * i <= p; i += 2) {
+            if (p % i == 0) {
+                int c = 0;
+                do {
+                    c++;
+                    p /= i;
+                } while ((p % i) == 0);
+                factor.put(i, c);
+            }
         }
         return factor;
     }
 
-    public static Set<Long> getFactors(long p) {
-        Set<Long> factors = new HashSet<>();
-        for (long i = 2; p > 1; i++) {
-            if (p % i != 0) {
-                continue;
-            }
-            factors.add(i);
-            while (p % i == 0) {
-                p /= i;
-            }
+    /**
+     * Calculates totient functionn for p^c
+     * @param p prime base
+     * @param c exponent
+     * @return totient(p^c)
+     */
+    public static long primeTotient(long p, int c) {
+        long ans = p - 1;
+        for (int i = 1; i < c; i++) {
+            ans *= p;
         }
-        return factors;
+        return ans;
+    }
+
+    public static long totient(long v) {
+        Map<Long, Integer> factors = primeFactorize(v);
+        long ans = 1;
+        for (Map.Entry<Long, Integer> ent : factors.entrySet()) {
+            ans *= primeTotient(ent.getKey(), ent.getValue());
+        }
+        return ans;
     }
 
     public static int min(int ... v) {
@@ -194,6 +217,33 @@ public final class IntMath {
             sum[i + 1] = sum[i] + a[i];
         }
         return sum;
+    }
+
+    @Verified("https://atcoder.jp/contests/nikkei2019-ex/submissions/4303502")
+    public static int sqrt(int a) {
+        int min = 0, max = 0x10000;
+        while (max - min > 1) {
+            int mid = (min + max) / 2;
+            if (mid * mid <= a) {
+                min = mid;
+            } else {
+                max = mid;
+            }
+        }
+        return min;
+    }
+
+    public static int sqrt(long a) {
+        long min = 0L, max =0x100000000L;
+        while (max - min > 1) {
+            long mid = (min + max) / 2;
+            if (mid * mid <= a) {
+                min = mid;
+            } else {
+                max = mid;
+            }
+        }
+        return (int) min;
     }
 
 }

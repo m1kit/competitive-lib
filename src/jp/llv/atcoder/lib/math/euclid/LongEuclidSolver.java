@@ -1,6 +1,6 @@
 package jp.llv.atcoder.lib.math.euclid;
 
-import jp.llv.atcoder.lib.math.geo.Vec3l;
+import jp.llv.atcoder.lib.geo.Vec3l;
 
 public class LongEuclidSolver {
     private LongEuclidSolver() {

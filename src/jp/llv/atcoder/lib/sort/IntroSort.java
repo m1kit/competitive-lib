@@ -25,7 +25,10 @@ public class IntroSort {
         InsertionSort.sort(a, low, high, comparator);
     }
 
-    @Verified("https://atcoder.jp/contests/abc116/submissions/4199065")
+    @Verified({
+            "https://atcoder.jp/contests/abc116/submissions/4199065",
+            "https://codeforces.com/contest/1114/submission/49740827"
+    })
     public static <T> void sort(T[] a, Comparator<T> comparator) {
         if (a.length <= INSERTIONSORT_THRESHOLD) {
             InsertionSort.sort(a, 0, a.length, comparator);

@@ -1,8 +1,8 @@
-package jp.llv.atcoder.lib.math.geo;
+package jp.llv.atcoder.lib.geo;
 
 import java.util.Objects;
 
-public class Vec2l {
+public class Vec2l implements Comparable<Vec2l> {
 
     public long x;
     public long y;
@@ -33,5 +33,13 @@ public class Vec2l {
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";
+    }
+
+    @Override
+    public int compareTo(Vec2l o) {
+        if (x == o.x) {
+            return Long.compare(y, o.y);
+        }
+        return Long.compare(x, o.x);
     }
 }

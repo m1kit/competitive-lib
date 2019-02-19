@@ -1,13 +1,13 @@
-package jp.llv.atcoder.lib.math.geo;
+package jp.llv.atcoder.lib.geo;
 
 import java.util.Objects;
 
-public class Vec3i {
-    public int x;
-    public int y;
-    public int z;
+public class Vec3l implements Comparable<Vec3l> {
+    public long x;
+    public long y;
+    public long z;
 
-    public Vec3i(int x, int y, int z) {
+    public Vec3l(long x, long y, long z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -31,5 +31,16 @@ public class Vec3i {
     @Override
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ")";
+    }
+
+    @Override
+    public int compareTo(Vec3l o) {
+        if (x == o.x) {
+            if (y == o.y) {
+                return Long.compare(z, o.z);
+            }
+            return Long.compare(y, o.z);
+        }
+        return Long.compare(x, o.x);
     }
 }

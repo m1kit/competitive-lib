@@ -27,7 +27,7 @@ public class ModMath {
     }
 
     public long getPrimitiveElement() {
-        Set<Long> factors = IntMath.getFactors(mod - 1);
+        Set<Long> factors = IntMath.primeFactorize(mod - 1).keySet();
         outer: for (int i = 2; i < mod; i++) {
             for (long f : factors) {
                 if (pow(i, (mod - 1) / f) == 1) {
@@ -40,7 +40,7 @@ public class ModMath {
     }
 
     public boolean isPrimitiveElement(long r) {
-        Set<Long> factors = IntMath.getFactors(mod - 1);
+        Set<Long> factors = IntMath.primeFactorize(mod - 1).keySet();
         for (long f : factors) {
             if (pow(r, (mod - 1) / f) == 1) {
                 return false;
@@ -138,6 +138,10 @@ public class ModMath {
 
     public Factorial getFactorial(int n) {
         return new Factorial(this, n);
+    }
+
+    public Exponentiation getExponentiation(long base, int max) {
+        return new Exponentiation(this, base, max);
     }
 
 }

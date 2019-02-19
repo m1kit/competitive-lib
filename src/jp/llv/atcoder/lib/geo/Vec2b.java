@@ -1,4 +1,4 @@
-package jp.llv.atcoder.lib.math.geo;
+package jp.llv.atcoder.lib.geo;
 
 import java.math.BigInteger;
 import java.util.Objects;

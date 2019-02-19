@@ -1,6 +1,6 @@
-package jp.llv.atcoder.lib.math.geo;
+package jp.llv.atcoder.lib.geo;
 
-public class Vec2i {
+public class Vec2i implements Comparable<Vec2i> {
     public int x;
     public int y;
 
@@ -29,5 +29,13 @@ public class Vec2i {
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";
+    }
+
+    @Override
+    public int compareTo(Vec2i o) {
+        if (x == o.x) {
+            return Integer.compare(y, o.y);
+        }
+        return Integer.compare(x, o.x);
     }
 }

@@ -1,4 +1,4 @@
-package jp.llv.atcoder.lib.math.geo;
+package jp.llv.atcoder.lib.geo;
 
 import jp.llv.atcoder.lib.util.function.BiIntConsumer;
 import jp.llv.atcoder.lib.util.function.BiLongConsumer;

@@ -1,10 +1,15 @@
 package jp.llv.atcoder.lib.structure;
 
+import jp.llv.atcoder.lib.meta.Verified;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.IntFunction;
 
+@Verified({
+        "https://codeforces.com/contest/1114/submission/49740827"
+})
 public class Heap<T> {
 
     private static final int DEFAULT_INITIAL_CAPACITY = 32;

@@ -108,6 +108,62 @@ public class LightWriter implements AutoCloseable {
         return ans(Objects.toString(obj));
     }
 
+    public LightWriter ans(int...n) {
+        for (int n1 : n) {
+            ans(n1);
+        }
+        return this;
+    }
+
+    public LightWriter ansln(int...n) {
+        for (int n1 : n) {
+            ans(n1).ln();
+        }
+        return this;
+    }
+
+    public LightWriter ans(long...n) {
+        for (long n1 : n) {
+            ans(n1);
+        }
+        return this;
+    }
+
+    public LightWriter ansln(long...n) {
+        for (long n1 : n) {
+            ans(n1).ln();
+        }
+        return this;
+    }
+
+    public LightWriter ans(char...n) {
+        for (char n1 : n) {
+            ans(n1);
+        }
+        return this;
+    }
+
+    public LightWriter ansln(char...n) {
+        for (char n1 : n) {
+            ans(n1).ln();
+        }
+        return this;
+    }
+
+    public LightWriter ans(String...n) {
+        for (String n1 : n) {
+            ans(n1);
+        }
+        return this;
+    }
+
+    public LightWriter ansln(String...n) {
+        for (String n1 : n) {
+            ans(n1).ln();
+        }
+        return this;
+    }
+
     public LightWriter ans(int n, double ... x) {
         for (double x1 : x) {
             ans(x1, n);

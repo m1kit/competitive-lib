@@ -4,6 +4,7 @@ import jp.llv.atcoder.lib.meta.Verified;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -212,6 +213,42 @@ public final class ArrayUtil {
 
     public static int upperBound(long[] a, long t) {
         return upperBound(a, t, 0);
+    }
+
+    public static <T> int indexOf(T[] a, T v) {
+        for (int i = 0; i < a.length; i++) {
+            if (Objects.equals(a[i], v)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int indexOf(int[] a, int v) {
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] == v) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int indexOf(long[] a, long v) {
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] == v) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int indexOf(double[] a, double v) {
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] == v) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @SuppressWarnings("unchecked")

@@ -7,6 +7,7 @@ import java.io.*;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.StringTokenizer;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 
 public class LightScanner {
@@ -132,6 +133,12 @@ public class LightScanner {
             for (int j = 0; j < arrays.length; j++) {
                 arrays[j][i] = doubles();
             }
+        }
+    }
+
+    public <T> void objs(T[] array, Function<String, T> constructor) {
+        for (int i = 0; i < array.length; i++) {
+            array[i] = constructor.apply(string());
         }
     }
 

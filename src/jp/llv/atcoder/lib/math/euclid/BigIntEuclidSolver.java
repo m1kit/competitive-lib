@@ -1,6 +1,6 @@
 package jp.llv.atcoder.lib.math.euclid;
 
-import jp.llv.atcoder.lib.math.geo.Vec2b;
+import jp.llv.atcoder.lib.geo.Vec2b;
 
 import java.math.BigInteger;
 

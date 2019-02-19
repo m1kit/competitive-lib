@@ -45,9 +45,7 @@ public class HeapSort {
 
     // in heap [low, high), insert val into i
     private static void heapfy(int[] a, int low, int high, int i, int val) {
-        System.out.println("HEAPFY CALL [" + low + ", " + high + "), [" + i + "]=" + val);
         int child = 2 * i - low + 1;
-        System.out.println(child);
         while (child < high) {
             if (child + 1 < high && a[child] < a[child + 1]) {
                 child++;
