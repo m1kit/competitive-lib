@@ -2,7 +2,7 @@ package %package%;
 
 import %InputClassFQN%;
 import %OutputClassFQN%;
-import jp.llv.atcoder.lib.debug.Debug;
+import Debug;
 
 public class %TaskClass% {
 
@@ -11,7 +11,7 @@ public class %TaskClass% {
     private static final int MOD = (int) 1e9 + 7;
 
     public void solve(int testNumber, %InputClass% in, %OutputClass% out) {
-        Debug.autoEnable();
+        Debug.enable("src");
 
     }
 }
