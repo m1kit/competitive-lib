@@ -1,4 +1,4 @@
-package dev.mikit.atcoder.lib.structure;
+package dev.mikit.atcoder.lib.structure.unionfindtree;
 
 import java.util.function.BinaryOperator;
 import java.util.stream.IntStream;

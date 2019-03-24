@@ -1,7 +1,12 @@
-package dev.mikit.atcoder.lib.structure;
+package dev.mikit.atcoder.lib.structure.unionfindtree;
+
+import dev.mikit.atcoder.lib.meta.Verified;
 
 import java.util.stream.IntStream;
 
+@Verified({
+        "https://atcoder.jp/contests/arc090/submissions/4637871",
+})
 public class IntWeightedUnionFind {
 
     private final int[] groups;

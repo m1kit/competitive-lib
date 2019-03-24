@@ -2,7 +2,7 @@ package %package%;
 
 import %InputClassFQN%;
 import %OutputClassFQN%;
-import Debug;
+import dev.mikit.atcoder.lib.debug.Debug;
 
 public class %TaskClass% {
 

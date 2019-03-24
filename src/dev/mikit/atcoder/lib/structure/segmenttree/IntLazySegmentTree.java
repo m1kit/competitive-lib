@@ -1,4 +1,4 @@
-package dev.mikit.atcoder.lib.structure;
+package dev.mikit.atcoder.lib.structure.segmenttree;
 
 import dev.mikit.atcoder.lib.math.BitMath;
 import dev.mikit.atcoder.lib.meta.Verified;

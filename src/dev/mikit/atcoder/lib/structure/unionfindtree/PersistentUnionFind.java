@@ -1,23 +1,26 @@
-package dev.mikit.atcoder.lib.structure.persistence;
+package dev.mikit.atcoder.lib.structure.unionfindtree;
 
 import dev.mikit.atcoder.lib.geo.Vec2i;
 import dev.mikit.atcoder.lib.meta.Verified;
+import dev.mikit.atcoder.lib.structure.array.PersistentIntArray;
 
 import java.util.Arrays;
 
 @Verified({
         "https://atcoder.jp/contests/agc002/submissions/4615270",
+        "https://atcoder.jp/contests/code-thanks-festival-2017/submissions/4616145",
 })
 public class PersistentUnionFind {
 
     private final PersistentIntArray array;
 
-    public PersistentUnionFind(int n, int initialTimeCapacity, int initialNodeCapacity) {
+    public PersistentUnionFind(int n, int initialCapacity) {
         int[] init = new int[n];
         Arrays.fill(init, -1);
-        this.array = new PersistentIntArray(init, initialTimeCapacity, initialNodeCapacity);
+        this.array = new PersistentIntArray(init, initialCapacity, 2 * initialCapacity);
     }
 
+    @Deprecated
     public PersistentUnionFind(int n) {
         int[] init = new int[n];
         Arrays.fill(init, -1);

@@ -1,4 +1,4 @@
-package dev.mikit.atcoder.lib.structure.persistence;
+package dev.mikit.atcoder.lib.structure;
 
 public class TimeOutOfBoundsException extends RuntimeException {
     public TimeOutOfBoundsException() {

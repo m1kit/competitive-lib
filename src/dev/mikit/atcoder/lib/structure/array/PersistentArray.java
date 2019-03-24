@@ -1,6 +1,7 @@
-package dev.mikit.atcoder.lib.structure.persistence;
+package dev.mikit.atcoder.lib.structure.array;
 
 import dev.mikit.atcoder.lib.meta.Verified;
+import dev.mikit.atcoder.lib.structure.TimeOutOfBoundsException;
 
 import java.util.Arrays;
 import java.util.function.UnaryOperator;

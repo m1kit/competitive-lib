@@ -1,4 +1,4 @@
-package dev.mikit.atcoder.lib.structure;
+package dev.mikit.atcoder.lib.structure.segmenttree;
 
 import dev.mikit.atcoder.lib.util.Reflection;
 import dev.mikit.atcoder.lib.math.BitMath;
