@@ -2,16 +2,16 @@ package %package%;
 
 import %InputClassFQN%;
 import %OutputClassFQN%;
-import dev.mikit.atcoder.lib.debug.Debug;
 
 public class %TaskClass% {
 
-    private static final String YES = "Yes";
-    private static final String NO = "No";
     private static final int MOD = (int) 1e9 + 7;
+    private static final long INF = 1_000_000_000_000_000_000L;
 
     public void solve(int testNumber, %InputClass% in, %OutputClass% out) {
-        Debug.enable("src");
+        // out.setBoolLabel(LightWriter.BoolLabel.YES_NO_FIRST_UP);
+        // out.setCaseLabel(LightWriter.CaseLabel.NONE);
+        if (false) in.next();
 
     }
 }
