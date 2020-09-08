@@ -7,8 +7,8 @@ public class AbelianFenwickTree<T> extends FenwickTree<T> {
 
     private UnaryOperator<T> rev;
 
-    public AbelianFenwickTree(T[] array, BinaryOperator<T> op, T zero, UnaryOperator<T> rev) {
-        super(array, op, zero);
+    public AbelianFenwickTree(int n, BinaryOperator<T> op, T zero, UnaryOperator<T> rev) {
+        super(n, op, zero);
         this.rev = rev;
     }
 
@@ -16,7 +16,7 @@ public class AbelianFenwickTree<T> extends FenwickTree<T> {
         if (first == 0) {
             return query(last);
         } else {
-            return op.apply(query(last), rev.apply(query(first - 1)));
+            return op.apply(query(last), rev.apply(query(first)));
         }
     }
 }

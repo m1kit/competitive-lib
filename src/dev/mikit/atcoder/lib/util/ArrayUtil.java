@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.IntPredicate;
+import java.util.function.Predicate;
 
 public final class ArrayUtil {
 
@@ -71,6 +73,22 @@ public final class ArrayUtil {
     }
 
     public static void fill(double[][][] a, double v) {
+        for (int i = 0; i < a.length; i++) {
+            fill(a[i], v);
+        }
+    }
+
+    public static void fill(boolean[] a, boolean v) {
+        Arrays.fill(a, v);
+    }
+
+    public static void fill(boolean[][] a, boolean v) {
+        for (int i = 0; i < a.length; i++) {
+            fill(a[i], v);
+        }
+    }
+
+    public static void fill(boolean[][][] a, boolean v) {
         for (int i = 0; i < a.length; i++) {
             fill(a[i], v);
         }
@@ -172,6 +190,23 @@ public final class ArrayUtil {
         while (min < max) {
             int mid = (min + max) / 2;
             if (t <= a[mid]) {
+                max = mid;
+            } else {
+                min = mid + 1;
+            }
+        }
+        return min;
+    }
+
+    public static <T> int minTrue(T[] a, Predicate<? super T> t) {
+        return minTrue(a, t, 0);
+    }
+
+    public static <T> int minTrue(T[] a, Predicate<? super T> t, int min) {
+        int max = a.length;
+        while (min < max) {
+            int mid = (min + max) / 2;
+            if (t.test(a[mid])) {
                 max = mid;
             } else {
                 min = mid + 1;
@@ -296,6 +331,12 @@ public final class ArrayUtil {
         a[y] = t;
     }
 
+    public static void swap(char[] a, int x, int y) {
+        char t = a[x];
+        a[x] = a[y];
+        a[y] = t;
+    }
+
     public static void swap(int[] a, int x, int y) {
         int t = a[x];
         a[x] = a[y];
@@ -312,5 +353,23 @@ public final class ArrayUtil {
         double t = a[x];
         a[x] = a[y];
         a[y] = t;
+    }
+
+    public static int minTrue(IntPredicate p, int lo, int hi) {
+        while (hi - lo > 1) {
+            int mid = (lo >> 1) + (hi >> 1) + (lo & hi & 1);
+            if (p.test(mid)) hi = mid;
+            else lo = mid;
+        }
+        return hi;
+    }
+
+    public static int maxTrue(IntPredicate p, int lo, int hi) {
+        while (hi - lo > 1) {
+            int mid = (lo >> 1) + (hi >> 1) + (lo & hi & 1);
+            if (p.test(mid)) lo = mid;
+            else hi = mid;
+        }
+        return lo;
     }
 }

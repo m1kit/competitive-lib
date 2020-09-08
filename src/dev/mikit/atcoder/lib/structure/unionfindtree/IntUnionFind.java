@@ -4,10 +4,12 @@ import java.util.Arrays;
 
 public final class IntUnionFind {
 
+    private int groups;
     private final int[] nodes;
     private final int[] rank;
 
     public IntUnionFind(int n) {
+        groups = n;
         nodes = new int[n];
         Arrays.fill(nodes, -1);
         rank = new int[n];
@@ -24,6 +26,10 @@ public final class IntUnionFind {
 
     public int size(int i) {
         return -nodes[find(i)];
+    }
+
+    public int size() {
+        return groups;
     }
 
     public int rank(int i) {
@@ -46,6 +52,7 @@ public final class IntUnionFind {
             nodes[x] += nodes[y];
             nodes[y] = x;
         }
+        groups--;
         return true;
     }
 

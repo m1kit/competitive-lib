@@ -35,8 +35,7 @@ public class LazySegmentTree<T, U> {
         this.merge = merge;
         this.nop = nop;
         this.mul = mul;
-        int msb = BitMath.extractMsb(n);
-        this.m = n == msb ? msb : (msb << 1);
+        this.m = n == 1 ? 1 : Integer.highestOneBit(n - 1) << 1;
         this.tree = Reflection.newInstance(Reflection.getComponentClass(array), 2 * m - 1);
         this.lazy = Reflection.newInstance(Reflection.getClass(nop), 2 * m - 1);
         Arrays.fill(tree, zero);

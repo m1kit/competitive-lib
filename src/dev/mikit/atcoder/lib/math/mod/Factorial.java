@@ -4,13 +4,11 @@ import java.util.Arrays;
 
 public class Factorial {
     private final ModMath mod;
-    private final int max;
     private final long[] natural;
     private final long[] reverse;
 
     public Factorial(ModMath mod, int max) {
         this.mod = mod;
-        this.max = max;
         this.natural = new long[max];
         this.reverse = new long[max];
         natural[0] = 1;
@@ -23,23 +21,23 @@ public class Factorial {
         }
     }
 
-    public long fact(int x) {
-        return natural[x];
+    public long fact(long x) {
+        return natural[(int) x];
     }
 
-    public long factinv(int x) {
-        return reverse[x];
+    public long factinv(long x) {
+        return reverse[(int) x];
     }
 
-    public long npr(int n, int r) {
-        return n < r ? 0 : mod.mod(natural[n] * reverse[n - r]);
+    public long npr(long n, long r) {
+        return n < r ? 0 : mod.mod(fact(n) * factinv(n - r));
     }
 
-    public long ncr(int n, int r) {
-        return mod.mod(npr(n, r) * reverse[r]);
+    public long ncr(long n, long r) {
+        return mod.mod(npr(n, r) * factinv(r));
     }
 
-    public long nhr(int n, int r) {
+    public long nhr(long n, long r) {
         return (n | r) == 0 ? 1 : ncr(n + r - 1, r);
     }
 

@@ -1,24 +1,37 @@
 package dev.mikit.atcoder.lib.math.euclid;
 
-import dev.mikit.atcoder.lib.geo.Vec3l;
+import dev.mikit.atcoder.lib.math.geo.Vec3l;
 
 public class LongEuclidSolver {
     private LongEuclidSolver() {
     }
 
     /**
-     * Solves px+qy=0.
-     * @param p
-     * @param q
-     * @return (x, y, gcd(p, q))
+     * Solves ax+by=gcd(a, b).
+     *
+     * @param a
+     * @param b
+     * @return (a, b, gcd (a, b))
      */
-    public static Vec3l solve(long p, long q) {
-        if (q == 0) {
-            return new Vec3l(p, 1, p);
+    public static Vec3l solve(long a, long b) {
+        ReferenceLong p = new ReferenceLong(), q = new ReferenceLong();
+        long d = solve(a, b, p, q);
+        return new Vec3l(p.val, q.val, d);
+    }
+
+    private static long solve(long a, long b, ReferenceLong p, ReferenceLong q) {
+        if (b == 0) {
+            p.val = 1;
+            q.val = 0;
+            return a;
+        } else {
+            long d = solve(b, a % b, q, p);
+            q.val -= (a / b) * p.val;
+            return d;
         }
-        Vec3l vals = solve(q, p % q);
-        long a = vals.y;
-        long b = vals.x - (p / q) * a;
-        return new Vec3l(a, b, vals.z);
+    }
+
+    private static class ReferenceLong {
+        private long val;
     }
 }

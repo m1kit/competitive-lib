@@ -1,6 +1,6 @@
 package dev.mikit.atcoder.lib.structure.unionfindtree;
 
-import dev.mikit.atcoder.lib.geo.Vec2i;
+import dev.mikit.atcoder.lib.math.geo.g2d.Vec2i;
 import dev.mikit.atcoder.lib.meta.Verified;
 
 import java.util.Arrays;

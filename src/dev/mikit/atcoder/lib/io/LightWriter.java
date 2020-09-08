@@ -4,26 +4,38 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.IntFunction;
+import java.util.function.UnaryOperator;
 
 public class LightWriter implements AutoCloseable {
 
-    private static final int DEFAULT_DOUBLE_ACC = 9;
+    private static final int DEFAULT_DOUBLE_ACC = 15;
 
     private final Writer out;
     private boolean autoflush = false;
     private boolean breaked = true;
-
+    private BoolLabel boolLabel = BoolLabel.YES_NO_FIRST_UP;
+    private CaseLabel caseLabel = CaseLabel.NONE;
 
     public LightWriter(Writer out) {
         this.out = out;
     }
 
     public LightWriter(OutputStream out) {
-        this(new BufferedWriter(new OutputStreamWriter(out, Charset.defaultCharset())));
+        this(new OutputStreamWriter(new BufferedOutputStream(out), Charset.defaultCharset()));
     }
 
     public void enableAutoFlush() {
         autoflush = true;
+    }
+
+    public void setBoolLabel(BoolLabel label) {
+        this.boolLabel = Objects.requireNonNull(label);
+    }
+
+    public void setCaseLabel(CaseLabel label) {
+        this.caseLabel = Objects.requireNonNull(label);
     }
 
     public LightWriter print(char c) {
@@ -46,6 +58,12 @@ public class LightWriter implements AutoCloseable {
         return this;
     }
 
+    public LightWriter cases(int x) {
+        if (!breaked) ln();
+        print(caseLabel.format.apply(x));
+        breaked = true;
+        return this;
+    }
 
     public LightWriter ans(char c) {
         if (!breaked) {
@@ -101,7 +119,23 @@ public class LightWriter implements AutoCloseable {
     }
 
     public LightWriter ans(boolean b) {
-        return ans(Boolean.toString(b));
+        return ans(boolLabel.transfer(b));
+    }
+
+    public LightWriter yes() {
+        return ans(true);
+    }
+
+    public LightWriter no() {
+        return ans(false);
+    }
+
+    public LightWriter yesln() {
+        return ans(true).ln();
+    }
+
+    public LightWriter noln() {
+        return ans(false).ln();
     }
 
     public LightWriter ans(Object obj) {
@@ -178,6 +212,20 @@ public class LightWriter implements AutoCloseable {
         return this;
     }
 
+    public LightWriter ans(boolean ... f) {
+        for (boolean f1 : f) {
+            ans(f1);
+        }
+        return this;
+    }
+
+    public LightWriter ansln(boolean ... f) {
+        for (boolean f1 : f) {
+            ans(f1).ln();
+        }
+        return this;
+    }
+
     public LightWriter ans(double ... x) {
         return ans(DEFAULT_DOUBLE_ACC, x);
     }
@@ -224,6 +272,44 @@ public class LightWriter implements AutoCloseable {
             out.close();
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
+        }
+    }
+
+    public enum BoolLabel {
+        YES_NO_FIRST_UP("Yes", "No"),
+        YES_NO_ALL_UP("YES", "NO"),
+        YES_NO_ALL_DOWN("yes", "no"),
+        Y_N_ALL_UP("Y", "N"),
+        POSSIBLE_IMPOSSIBLE_FIRST_UP("Possible", "Impossible"),
+        POSSIBLE_IMPOSSIBLE_ALL_UP("POSSIBLE", "IMPOSSIBLE"),
+        POSSIBLE_IMPOSSIBLE_ALL_DOWN("possible", "impossible"),
+        FIRST_SECOND_FIRST_UP("First", "Second"),
+        FIRST_SECOND_ALL_UP("FIRST", "SECOND"),
+        FIRST_SECOND_ALL_DOWN("first", "second"),
+        ALICE_BOB_FIRST_UP("Alice", "Bob"),
+        ALICE_BOB_ALL_UP("ALICE", "BOB"),
+        ALICE_BOB_ALL_DOWN("alice", "bob"),
+        ;
+        private final String positive, negative;
+
+        BoolLabel(String positive, String negative) {
+            this.positive = positive;
+            this.negative = negative;
+        }
+
+        private String transfer(boolean f) {
+            return f ? positive : negative;
+        }
+    }
+
+    public enum CaseLabel {
+        NONE(x -> ""),
+        GCJ(x -> "Case #" + x + ": "),
+        ;
+        private final IntFunction<String> format;
+
+        CaseLabel(IntFunction<String> format) {
+            this.format = format;
         }
     }
 }

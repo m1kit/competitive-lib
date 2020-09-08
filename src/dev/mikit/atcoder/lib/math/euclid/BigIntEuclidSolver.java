@@ -1,39 +1,36 @@
 package dev.mikit.atcoder.lib.math.euclid;
 
-import dev.mikit.atcoder.lib.geo.Vec2b;
+import dev.mikit.atcoder.lib.math.geo.Vec3bi;
 
 import java.math.BigInteger;
 
 public class BigIntEuclidSolver {
-    private static final BigIntEuclidSolver instance = new BigIntEuclidSolver();
-    private BigInteger x, y;
-
-    private BigInteger solve(BigInteger a, BigInteger b, boolean r) {
-        if (b.equals(BigInteger.ZERO)) {
-            if (r) {
-                y = BigInteger.ONE;
-                x = BigInteger.ZERO;
-            } else {
-                x = BigInteger.ONE;
-                y = BigInteger.ZERO;
-            }
-            return a;
-        }
-        BigInteger d = solve(b, a.mod(b), !r);
-        if (r) {
-            x = x.subtract(a.divide(b).multiply(y));
-        } else {
-            y = y.subtract(a.divide(b).multiply(x));
-        }
-        return d;
+    /**
+     * Solves ax+by=gcd(a, b).
+     *
+     * @param a
+     * @param b
+     * @return (a, b, gcd (a, b))
+     */
+    public static Vec3bi solve(BigInteger a, BigInteger b) {
+        ReferenceBigInt p = new ReferenceBigInt(), q = new ReferenceBigInt();
+        BigInteger d = solve(a, b, p, q);
+        return new Vec3bi(p.val, q.val, d);
     }
 
-    public static Vec2b solve(BigInteger a, BigInteger b) {
-        if (a.compareTo(b) >= 0) {
-            instance.solve(a, b, false);
+    private static BigInteger solve(BigInteger a, BigInteger b, ReferenceBigInt p, ReferenceBigInt q) {
+        if (BigInteger.ZERO.equals(b)) {
+            p.val = BigInteger.ONE;
+            q.val = BigInteger.ZERO;
+            return a;
         } else {
-            instance.solve(b, a, true);
+            BigInteger d = solve(b, a.mod(b), q, p);
+            q.val = q.val.subtract(a.divide(b).multiply(p.val));
+            return d;
         }
-        return new Vec2b(instance.x, instance.y);
+    }
+
+    private static class ReferenceBigInt {
+        private BigInteger val = BigInteger.ZERO;
     }
 }

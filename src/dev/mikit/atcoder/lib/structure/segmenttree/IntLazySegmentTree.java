@@ -30,8 +30,7 @@ public class IntLazySegmentTree {
                               LongBinaryOperator merge, long nop,
                               LongIntToLongFunction mul) {
         this.n = array.length;
-        int msb = BitMath.extractMsb(n);
-        this.m = n == msb ? msb : (msb << 1);
+        this.m = n == 1 ? 1 : Integer.highestOneBit(n - 1) << 1;
         this.op = op;
         this.zero = zero;
         this.up = up;

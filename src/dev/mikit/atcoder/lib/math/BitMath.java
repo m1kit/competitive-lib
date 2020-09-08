@@ -6,22 +6,11 @@ public final class BitMath {
     }
 
     public static int count(int v) {
-        v = (v & 0x55555555) + ((v >> 1) & 0x55555555);
-        v = (v & 0x33333333) + ((v >> 2) & 0x33333333);
-        v = (v & 0x0f0f0f0f) + ((v >> 4) & 0x0f0f0f0f);
-        v = (v & 0x00ff00ff) + ((v >> 8) & 0x00ff00ff);
-        v = (v & 0x0000ffff) + ((v >> 16) & 0x0000ffff);
-        return v;
+        return Integer.bitCount(v);
     }
 
     public static int count(long v) {
-        v = (v & 0x5555555555555555L) + ((v >> 1) & 0x5555555555555555L);
-        v = (v & 0x3333333333333333L) + ((v >> 2) & 0x3333333333333333L);
-        v = (v & 0x0f0f0f0f0f0f0f0fL) + ((v >> 4) & 0x0f0f0f0f0f0f0f0fL);
-        v = (v & 0x00ff00ff00ff00ffL) + ((v >> 8) & 0x00ff00ff00ff00ffL);
-        v = (v & 0x0000ffff0000ffffL) + ((v >> 16) & 0x0000ffff0000ffffL);
-        v = (v & 0x00000000ffffffffL) + ((v >> 32) & 0x00000000ffffffffL);
-        return (int) v;
+        return Long.bitCount(v);
     }
 
     public static int msb(int v) {

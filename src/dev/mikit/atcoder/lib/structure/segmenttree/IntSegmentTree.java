@@ -20,8 +20,7 @@ public class IntSegmentTree {
 
     public IntSegmentTree(long[] array, LongBinaryOperator op, long zero, LongBinaryOperator up) {
         this.n = array.length;
-        int msb = BitMath.extractMsb(n);
-        this.m = n == msb ? msb : (msb << 1);
+        this.m = n == 1 ? 1 : Integer.highestOneBit(n - 1) << 1;
         this.tree = new long[m * 2 - 1];
         this.op = op;
         this.up = up;
@@ -63,4 +62,7 @@ public class IntSegmentTree {
         return op.applyAsLong(left, right);
     }
 
+    public int size() {
+        return n;
+    }
 }
