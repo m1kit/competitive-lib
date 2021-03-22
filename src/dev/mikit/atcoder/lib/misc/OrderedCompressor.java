@@ -10,6 +10,7 @@ public class OrderedCompressor implements Iterable<Long> {
     private final long[] reverse;
 
     public OrderedCompressor(long... values) {
+        values = values.clone();
         int n = values.length, counter = 0;
         long[] tmp = new long[n];
         IntroSort.sort(values);
@@ -35,6 +36,10 @@ public class OrderedCompressor implements Iterable<Long> {
 
     public int size() {
         return reverse.length;
+    }
+
+    public long[] toArray() {
+        return reverse.clone();
     }
 
     @Override

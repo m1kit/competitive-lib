@@ -1,13 +1,11 @@
 package dev.mikit.atcoder.lib.io;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.util.NoSuchElementException;
 
 public class LightScanner2 extends LightScannerAdapter {
 
-    private static final int BUF_SIZE = 1024 * 1024;
+    private static final int BUF_SIZE = 16 * 1024;
 
     private final InputStream stream;
     private final StringBuilder builder = new StringBuilder();
@@ -20,21 +18,42 @@ public class LightScanner2 extends LightScannerAdapter {
 
     private int read() {
         if (ptr < len) return buf[ptr++];
+        reload();
+        if (len == -1) return -1;
+        return buf[ptr++];
+    }
+
+    private void reload() {
         try {
             ptr = 0;
             len = stream.read(buf);
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }
-        if (len == -1) return -1;
-        return buf[ptr++];
+    }
+
+    private void load(int n) {
+        if (ptr + n <= len) return;
+        System.arraycopy(buf, ptr, buf, 0, len - ptr);
+        len -= ptr;
+        ptr = 0;
+        try {
+            int r = stream.read(buf, len, BUF_SIZE - len);
+            if (r == -1) return;
+            len += r;
+            if (len != BUF_SIZE) buf[len] = '\n';
+        } catch (IOException ex) {
+            throw new UncheckedIOException(ex);
+        }
     }
 
     private void skip() {
-        int b;
-        while (isTokenSeparator(b = read()) && b != -1) ;
-        if (b == -1) throw new NoSuchElementException("EOF");
-        ptr--;
+        while (len != -1) {
+            while (ptr < len && isTokenSeparator(buf[ptr])) ptr++;
+            if (ptr < len) return;
+            reload();
+        }
+        throw new NoSuchElementException("EOF");
     }
 
     private void loadToken() {
@@ -75,22 +94,34 @@ public class LightScanner2 extends LightScannerAdapter {
 
     @Override
     public int ints() {
-        long x = longs();
-        if (x < Integer.MIN_VALUE || Integer.MAX_VALUE < x) throw new NumberFormatException("Overflow");
-        return (int) x;
+        skip();
+        load(12);
+        int b = buf[ptr++];
+        boolean negate;
+        if (b == '-') {
+            negate = true;
+            b = buf[ptr++];
+        } else negate = false;
+        int x = 0;
+        for (; !isTokenSeparator(b); b = buf[ptr++]) {
+            if ('0' <= b && b <= '9') x = x * 10 + b - '0';
+            else throw new NumberFormatException("Unexpected character '" + ((char) b) + "'");
+        }
+        return negate ? -x : x;
     }
 
     @Override
     public long longs() {
         skip();
-        int b = read();
+        load(20);
+        int b = buf[ptr++];
         boolean negate;
         if (b == '-') {
             negate = true;
-            b = read();
+            b = buf[ptr++];
         } else negate = false;
         long x = 0;
-        for (; !isTokenSeparator(b); b = read()) {
+        for (; !isTokenSeparator(b); b = buf[ptr++]) {
             if ('0' <= b && b <= '9') x = x * 10 + b - '0';
             else throw new NumberFormatException("Unexpected character '" + b + "'");
         }

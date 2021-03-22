@@ -12,15 +12,13 @@ import java.util.function.IntFunction;
 
 public class LightWriter2 implements AutoCloseable {
 
-    private static final int BUF_SIZE = 1024 * 1024;
-    private static final int BUF_THRESHOLD = 64 * 1024;
+    private static final int BUF_SIZE = 16 * 1024;
+    private static final int BUF_THRESHOLD = 1024;
     private static final int DEFAULT_DOUBLE_ACC = 15;
 
     private final OutputStream out;
     private final byte[] buf = new byte[BUF_SIZE];
     private int ptr;
-
-    private final Field fastStringAccess;
 
     private boolean autoflush = false;
     private boolean breaked = true;
@@ -29,20 +27,10 @@ public class LightWriter2 implements AutoCloseable {
 
     public LightWriter2(OutputStream out) {
         this.out = out;
-        Field f;
-        try {
-            f = String.class.getDeclaredField("value");
-            f.setAccessible(true);
-            if (f.getType() != byte[].class) f = null;
-        } catch (ReflectiveOperationException | AccessControlException ignored) {
-            f = null;
-        }
-        this.fastStringAccess = f;
     }
 
     public LightWriter2(Writer out) {
         this.out = new WriterOutputStream(out);
-        this.fastStringAccess = null;
     }
 
     public void enableAutoFlush() {
@@ -99,15 +87,7 @@ public class LightWriter2 implements AutoCloseable {
     }
 
     public LightWriter2 print(String s) {
-        byte[] bytes;
-        if (this.fastStringAccess == null) bytes = s.getBytes();
-        else {
-            try {
-                bytes = (byte[]) fastStringAccess.get(s);
-            } catch (IllegalAccessException ignored) {
-                bytes = s.getBytes();
-            }
-        }
+        byte[] bytes = s.getBytes();
         int n = bytes.length;
         if (n <= BUF_THRESHOLD) {
             allocate(n);
@@ -134,34 +114,73 @@ public class LightWriter2 implements AutoCloseable {
     }
 
     public LightWriter2 ans(char c) {
-        if (!breaked) {
-            print(' ');
-        }
+        if (!breaked) print(' ');
+        breaked = false;
         return print(c);
     }
 
     public LightWriter2 ans(String s) {
-        if (!breaked) {
-            print(' ');
-        }
+        if (!breaked) print(' ');
         breaked = false;
         return print(s);
     }
 
     public LightWriter2 ans(double x, int n) {
-        if (!breaked) {
-            print(' ');
-        }
+        allocate(n + 24);
+        if (!breaked) buf[ptr++] = ' ';
+        breaked = false;
+
         if (x < 0) {
-            print('-');
+            buf[ptr++] = '-';
             x = -x;
         }
-        x += Math.pow(10, -n) / 2;
-        print(Long.toString((long) x)).print('.');
-        x -= (long) x;
+        x += Math.pow(10, -n) / 2; //rounding
+
+        long l = (long) x;
+        x -= l;
+        int w = countDigits(l);
+        for (int i = ptr + w - 1; ptr <= i; i--) {
+            buf[i] = (byte) (l % 10 + '0');
+            l /= 10;
+        }
+        ptr += w;
+
+        buf[ptr++] = '.';
         for (int i = 0; i < n; i++) {
-            x *= 10;
-            print((char) ('0' + ((int) x)));
+            x *= 10.0;
+            buf[ptr++] = (byte) ('0' + ((int) x));
+            x -= (int) x;
+        }
+        return this;
+    }
+
+    public LightWriter2 ansRel(double x, int n) {
+        allocate(n + 4);
+        if (!breaked) buf[ptr++] = ' ';
+        breaked = false;
+
+        if (x < 0) {
+            buf[ptr++] = '-';
+            x = -x;
+        }
+        x += Math.pow(10, -n) / 2; //rounding
+
+        long l = (long) x;
+        x -= l;
+        int w = countDigits(l);
+        for (int i = ptr + w - 1; ptr <= i; i--) {
+            buf[i] = (byte) (l % 10 + '0');
+            l /= 10;
+        }
+        ptr += w;
+
+        if (n <= w) return this;
+        n -= w;
+
+        buf[ptr++] = '.';
+        for (int i = 0; i < n; i++) {
+            x *= 10.0;
+            buf[ptr++] = (byte) ('0' + ((int) x));
             x -= (int) x;
         }
         return this;
@@ -175,53 +194,76 @@ public class LightWriter2 implements AutoCloseable {
         return ans(x == null ? "null" : x.toPlainString());
     }
 
-    public LightWriter2 ans(long l) {
-        if (!breaked) {
-            print(' ');
-        }
+    private static int countDigits(int l) {
+        if (l >= 1000000000L) return 10;
+        if (l >= 100000000L) return 9;
+        if (l >= 10000000L) return 8;
+        if (l >= 1000000L) return 7;
+        if (l >= 100000L) return 6;
+        if (l >= 10000L) return 5;
+        if (l >= 1000L) return 4;
+        if (l >= 100L) return 3;
+        if (l >= 10L) return 2;
+        return 1;
+    }
+
+    private static int countDigits(long l) {
+        if (l >= 1000000000000000000L) return 19;
+        if (l >= 100000000000000000L) return 18;
+        if (l >= 10000000000000000L) return 17;
+        if (l >= 1000000000000000L) return 16;
+        if (l >= 100000000000000L) return 15;
+        if (l >= 10000000000000L) return 14;
+        if (l >= 1000000000000L) return 13;
+        if (l >= 100000000000L) return 12;
+        if (l >= 10000000000L) return 11;
+        if (l >= 1000000000L) return 10;
+        if (l >= 100000000L) return 9;
+        if (l >= 10000000L) return 8;
+        if (l >= 1000000L) return 7;
+        if (l >= 100000L) return 6;
+        if (l >= 10000L) return 5;
+        if (l >= 1000L) return 4;
+        if (l >= 100L) return 3;
+        if (l >= 10L) return 2;
+        return 1;
+    }
+
+    public LightWriter2 ans(long x) {
+        allocate(24);
+        if (!breaked) buf[ptr++] = ' ';
         breaked = false;
-        if (l == 0) return print('0');
-        if (l < 0) {
-            print('-');
-            l = -l;
+
+        if (x < 0) {
+            buf[ptr++] = '-';
+            x = -x;
         }
-        int n = 0;
-        long t = l;
-        while (t > 0) {
-            t /= 10;
-            n++;
-        }
-        allocate(n);
-        for (int i = 1; i <= n; i++) {
-            buf[ptr + n - i] = (byte) (l % 10 + '0');
-            l /= 10;
+        int n = countDigits(x);
+        for (int i = ptr + n - 1; ptr <= i; i--) {
+            buf[i] = (byte) (x % 10 + '0');
+            x /= 10;
         }
         ptr += n;
+
         return this;
     }
 
-    public LightWriter2 ans(int i) {
-        if (!breaked) {
-            print(' ');
-        }
+    public LightWriter2 ans(int x) {
+        allocate(12);
+        if (!breaked) buf[ptr++] = ' ';
         breaked = false;
-        if (i == 0) return print('0');
-        if (i < 0) {
-            print('-');
-            i = -i;
+
+        if (x < 0) {
+            buf[ptr++] = '-';
+            x = -x;
         }
-        int n = 0;
-        long t = i;
-        while (t > 0) {
-            t /= 10;
-            n++;
-        }
-        allocate(n);
-        for (int j = 1; j <= n; j++) {
-            buf[ptr + n - j] = (byte) (i % 10 + '0');
-            i /= 10;
+        int n = countDigits(x);
+        for (int i = ptr + n - 1; ptr <= i; i--) {
+            buf[i] = (byte) (x % 10 + '0');
+            x /= 10;
         }
         ptr += n;
+
         return this;
     }
 
@@ -352,7 +394,8 @@ public class LightWriter2 implements AutoCloseable {
     }
 
     public LightWriter2 ln() {
-        print(System.lineSeparator());
+        allocate(1);
+        buf[ptr++] = '\n';
         breaked = true;
         if (autoflush) {
             try {

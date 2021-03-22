@@ -36,11 +36,11 @@ public final class IntUnionFind {
         return rank[i];
     }
 
-    public boolean union(int x, int y) {
+    public int union(int x, int y) {
         x = find(x);
         y = find(y);
         if (x == y) {
-            return false;
+            return -1;
         } else if (rank[x] < rank[y]) {
             nodes[y] += nodes[x];
             nodes[x] = y;
@@ -53,7 +53,7 @@ public final class IntUnionFind {
             nodes[y] = x;
         }
         groups--;
-        return true;
+        return x;
     }
 
     public int[] getNodes() {

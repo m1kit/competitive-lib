@@ -1,5 +1,7 @@
 package dev.mikit.atcoder.lib.sort;
 
+import dev.mikit.atcoder.lib.util.function.IntComparator;
+
 import java.util.Comparator;
 
 public class BinaryInsertionSort {

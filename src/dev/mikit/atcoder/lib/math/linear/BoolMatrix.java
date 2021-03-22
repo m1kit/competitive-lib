@@ -54,7 +54,7 @@ public class BoolMatrix {
 
     public BoolVector product(BoolVector other) {
         if (this.m != other.getRows()) {
-            throw new IllegalArgumentException("size mismatch");
+            throw new IllegalArgumentException("size mismatch: this has " + m + " cols but they have " + other.getRows()+" rows");
         }
         BoolVector res = new BoolVector(n);
         for (int i = 0; i < n; i++) {
@@ -105,6 +105,7 @@ public class BoolMatrix {
                 swap(i, pivot);
                 res.swap(i, pivot);
             }
+
             for (int j = 0; j < n; j++) {
                 if (i == j || !get(j, i)) continue;
                 mat[j].xor(mat[i]);

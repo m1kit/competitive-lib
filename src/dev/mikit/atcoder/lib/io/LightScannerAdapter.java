@@ -74,6 +74,23 @@ public abstract class LightScannerAdapter implements AutoCloseable {
         }
     }
 
+    public long multiplyAndLongs(long multiplier) {
+        String[] tokens = string().split("\\.");
+        if (tokens.length == 1) return Long.parseLong(tokens[0]) * multiplier;
+        if (tokens.length != 2) throw new NumberFormatException();
+        long x = Long.parseLong(tokens[0]) * multiplier;
+        long y = Long.parseLong(tokens[1]) * multiplier;
+        int len = tokens[1].length();
+        while (len-- > 0) y /= 10;
+        return x + y;
+    }
+
+    public final long[] multiplyAndLongs(int length, long multiplier) {
+        long[] res = new long[length];
+        Arrays.setAll(res, ignored -> multiplyAndLongs(multiplier));
+        return res;
+    }
+
     public long longs() {
         return Long.parseLong(string());
     }

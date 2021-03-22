@@ -32,7 +32,7 @@ public class PrimeTable {
         return res;
     }
 
-    public List<Integer> gerPrimes() {
+    public List<Integer> getPrimes() {
         return Collections.unmodifiableList(primes);
     }
 

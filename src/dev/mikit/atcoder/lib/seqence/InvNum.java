@@ -1,8 +1,11 @@
 package dev.mikit.atcoder.lib.seqence;
 
+import dev.mikit.atcoder.lib.math.BitMath;
 import dev.mikit.atcoder.lib.meta.Verified;
 import dev.mikit.atcoder.lib.sort.IntroSort;
-import dev.mikit.atcoder.lib.structure.fenwicktree.IntFenwickTree;
+import dev.mikit.atcoder.lib.util.function.IntComparator;
+
+import java.util.stream.IntStream;
 
 @Verified("http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=4805527")
 public class InvNum {
@@ -11,37 +14,48 @@ public class InvNum {
 
     public static long calcPerm(int[] a) {
         int n = a.length;
-        IntFenwickTree bit = new IntFenwickTree(n, Long::sum, 0L);
+        RangeSumPointAddFenwickTree bit = new RangeSumPointAddFenwickTree(n);
         long ans = 0;
         for (int i = n - 1; i >= 0; i--) {
             ans += bit.query(a[i]);
-            bit.add(a[i], 1);
+            bit.inc(a[i]);
         }
         return ans;
     }
 
     public static long calc(long[] a) {
         int n = a.length;
-        Entry[] entries = new Entry[n];
-        for (int i = 0; i < n; i++) entries[i] = new Entry(i, a[i]);
-        IntroSort.sort(entries);
-        int[] perm = new int[n];
-        for (int i = 0; i < n; i++) perm[i] = entries[i].index;
-        return calcPerm(perm);
+        int[] p = IntStream.range(0, n).toArray();
+        IntComparator cmp = (x, y) -> {
+            if (a[x] != a[y]) return Long.compare(a[x], a[y]);
+            return x - y;
+        };
+        IntroSort.sort(p, cmp);
+        return calcPerm(p);
     }
 
-    private static class Entry implements Comparable<Entry> {
-        int index;
-        long value;
+    private static class RangeSumPointAddFenwickTree {
 
-        Entry(int index, long value) {
-            this.index = index;
-            this.value = value;
+        final int n;
+        final int[] tree;
+
+        RangeSumPointAddFenwickTree(int n) {
+            this.n = n;
+            tree = new int[n + 1];
         }
 
-        @Override
-        public int compareTo(Entry o) {
-            return value == o.value ? Integer.compare(index, o.index) : Long.compare(value, o.value);
+        void inc(int index) {
+            for (index++; index <= n; index += BitMath.extractLsb(index)) {
+                tree[index]++;
+            }
+        }
+
+        int query(int last) {
+            int res = 0;
+            for (; last > 0; last -= BitMath.extractLsb(last)) {
+                res += tree[last];
+            }
+            return res;
         }
     }
 }

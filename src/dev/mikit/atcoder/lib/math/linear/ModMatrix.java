@@ -39,7 +39,7 @@ public class ModMatrix {
                 mat[rank][c] %= modulo;
             }
             if (mat[rank][col] != 1L) {
-                throw new RuntimeException("Something went wrong");
+                throw new RuntimeException("Something went wrong: " + mat[rank][col]);
             }
 
             for (int row = 0; row < n; row++) {

@@ -282,7 +282,7 @@ public final class IntMath {
     }
 
     @Verified("https://atcoder.jp/contests/nikkei2019-ex/submissions/4303502")
-    public static int sqrt(int a) {
+    public static int sqrtFloor(int a) {
         int min = 0, max = 0x10000;
         while (max - min > 1) {
             int mid = (min + max) / 2;
@@ -295,7 +295,7 @@ public final class IntMath {
         return min;
     }
 
-    public static int sqrt(long a) {
+    public static int sqrtFloor(long a) {
         long min = 0L, max = 0x100000000L;
         while (max - min > 1) {
             long mid = (min + max) / 2;
@@ -308,15 +308,44 @@ public final class IntMath {
         return (int) min;
     }
 
+    @Verified("https://atcoder.jp/contests/nikkei2019-ex/submissions/4303502")
+    public static int sqrtCeil(int a) {
+        int min = 0, max = 0x10000;
+        while (max - min > 1) {
+            int mid = (min + max) / 2;
+            if (mid * mid < a) {
+                min = mid;
+            } else {
+                max = mid;
+            }
+        }
+        return max;
+    }
+
+    public static int sqrtCeil(long a) {
+        long min = 0L, max = 0x100000000L;
+        while (max - min > 1) {
+            long mid = (min + max) / 2;
+            if (mid * mid < a) {
+                min = mid;
+            } else {
+                max = mid;
+            }
+        }
+        return (int) max;
+    }
+
     public static long npr(int n, int r) {
         long res = 1;
         for (int i = 0; i < r; i++) res *= n - i;
         return res;
     }
 
-    public static long ncr(int n, int r) {
-        long res = npr(n, r);
-        for (int i = 2; i <= r; i++) res /= i;
+    public static long ncr(int n, int k) {
+        long res = 1;
+        for (int i = 0; i < k; i++) {
+            res = res * (n - i) / (i + 1);
+        }
         return res;
     }
 

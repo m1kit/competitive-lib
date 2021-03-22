@@ -5,14 +5,17 @@ import java.util.BitSet;
 
 public class BoolVector {
 
+    final int n;
     final BitSet contents;
 
     public BoolVector(BitSet contents) {
         this.contents = contents;
+        this.n = contents.size();
     }
 
     public BoolVector(int n) {
-        this(new BitSet(n));
+        this.contents = new BitSet(n);
+        this.n = n;
     }
 
     public boolean get(int i) {
@@ -24,7 +27,7 @@ public class BoolVector {
     }
 
     public int getRows() {
-        return contents.size();
+        return n;
     }
 
     @Override

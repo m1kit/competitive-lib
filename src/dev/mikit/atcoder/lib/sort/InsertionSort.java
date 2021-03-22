@@ -1,6 +1,9 @@
 package dev.mikit.atcoder.lib.sort;
 
 import dev.mikit.atcoder.lib.util.ArrayUtil;
+import dev.mikit.atcoder.lib.util.function.DoubleComparator;
+import dev.mikit.atcoder.lib.util.function.IntComparator;
+import dev.mikit.atcoder.lib.util.function.LongComparator;
 
 import java.util.Comparator;
 
@@ -58,6 +61,42 @@ public class InsertionSort {
 
     public static void sort(double[] a) {
         sort(a, 0, a.length);
+    }
+
+    static void sort(int[] a, int low, int high, IntComparator comparator) {
+        for (int i = low; i < high; i++) {
+            for (int j = i; j > low && comparator.compare(a[j - 1], a[j]) > 0; j--) {
+                ArrayUtil.swap(a, j - 1, j);
+            }
+        }
+    }
+
+    public static void sort(int[] a, IntComparator comparator) {
+        sort(a, 0, a.length, comparator);
+    }
+
+    static void sort(long[] a, int low, int high, LongComparator comparator) {
+        for (int i = low; i < high; i++) {
+            for (int j = i; j > low && comparator.compare(a[j - 1], a[j]) > 0; j--) {
+                ArrayUtil.swap(a, j - 1, j);
+            }
+        }
+    }
+
+    public static void sort(long[] a, LongComparator comparator) {
+        sort(a, 0, a.length, comparator);
+    }
+
+    static void sort(double[] a, int low, int high, DoubleComparator comparator) {
+        for (int i = low; i < high; i++) {
+            for (int j = i; j > low && comparator.compare(a[j - 1], a[j]) > 0; j--) {
+                ArrayUtil.swap(a, j - 1, j);
+            }
+        }
+    }
+
+    public static void sort(double[] a, DoubleComparator comparator) {
+        sort(a, 0, a.length, comparator);
     }
 
 }

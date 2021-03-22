@@ -14,9 +14,19 @@ public class Vec2l implements Comparable<Vec2l> {
         this.y = y;
     }
 
-    void normalizeRatio() {
+    public void normalizeAngle360() {
         if (x == 0) y = Long.signum(y);
         else if (y == 0) x = Long.signum(x);
+        else {
+            long g = IntMath.gcd(Math.abs(x), Math.abs(y)) * Long.signum(x);
+            x /= g;
+            y /= g;
+        }
+    }
+
+    public void normalizeAngle180() {
+        if (x == 0) y = y == 0 ? 0 : 1;
+        else if (y == 0) x = 1;
         else {
             long g = IntMath.gcd(Math.abs(x), Math.abs(y)) * Long.signum(x);
             x /= g;

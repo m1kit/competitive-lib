@@ -21,8 +21,15 @@ public class IntFenwickTree {
     }
 
     public IntFenwickTree(long[] init, LongBinaryOperator op, long zero) {
-        this(init.length, op, zero);
-        for (int i = 0; i < n; i++) add(i, init[i]);
+        this.n = init.length;
+        this.op = op;
+        this.tree = new long[n + 1];
+        this.zero = zero;
+        System.arraycopy(init, 0, tree, 1, n);
+        for (int i = 1; i <= n; ++i) {
+            int j = i + (i & -i);
+            if (j <= n) tree[j] = op.applyAsLong(tree[j], tree[i]);
+        }
     }
 
     public int size() {

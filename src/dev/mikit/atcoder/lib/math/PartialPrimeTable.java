@@ -18,12 +18,12 @@ public class PartialPrimeTable {
     }
 
     public PartialPrimeTable(int l, int r, PrimeTable table) {
-        this(l, r, table.gerPrimes().stream().mapToInt(x -> x).toArray());
+        this(l, r, table.getPrimes().stream().mapToInt(x -> x).toArray());
         if (table.getSize() * table.getSize() < r) throw new RuntimeException("Insufficient small primes table");
     }
 
     public PartialPrimeTable(int l, int r) {
-        this(l, r, new PrimeTable(IntMath.sqrt(r) + 1));
+        this(l, r, new PrimeTable(IntMath.sqrtFloor(r) + 1));
     }
 
     public boolean isPrime(int x) {

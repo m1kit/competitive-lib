@@ -104,6 +104,10 @@ public class LazySegmentTree<T, U> {
         return tree[1];
     }
 
+    public void update(U v) {
+        lazy[1] = merge.apply(lazy[1], v);
+    }
+
     public void update(int i, U v) {
         i += m;
         pushTo(i);

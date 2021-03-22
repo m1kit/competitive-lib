@@ -14,19 +14,97 @@ public final class ArrayUtil {
     private ArrayUtil() {
     }
 
+    public static int[] concat(int[]...as) {
+        int total = 0;
+        for (int[] a : as) total += a.length;
+        int[] res = new int[total];
+        int head = 0;
+        for (int[] a : as) {
+            System.arraycopy(a, 0, res, head, a.length);
+            head += a.length;
+        }
+        return res;
+    }
+
+    public static long[] concat(long[]...as) {
+        int total = 0;
+        for (long[] a : as) total += a.length;
+        long[] res = new long[total];
+        int head = 0;
+        for (long[] a : as) {
+            System.arraycopy(a, 0, res, head, a.length);
+            head += a.length;
+        }
+        return res;
+    }
+
+    public static char[] concat(char[]...as) {
+        int total = 0;
+        for (char[] a : as) total += a.length;
+        char[] res = new char[total];
+        int head = 0;
+        for (char[] a : as) {
+            System.arraycopy(a, 0, res, head, a.length);
+            head += a.length;
+        }
+        return res;
+    }
+
+    public static double[] concat(double[]...as) {
+        int total = 0;
+        for (double[] a : as) total += a.length;
+        double[] res = new double[total];
+        int head = 0;
+        for (double[] a : as) {
+            System.arraycopy(a, 0, res, head, a.length);
+            head += a.length;
+        }
+        return res;
+    }
+
+    public static boolean[] concat(boolean[]...as) {
+        int total = 0;
+        for (boolean[] a : as) total += a.length;
+        boolean[] res = new boolean[total];
+        int head = 0;
+        for (boolean[] a : as) {
+            System.arraycopy(a, 0, res, head, a.length);
+            head += a.length;
+        }
+        return res;
+    }
+
+    public static <T> T[] concat(T[]...as) {
+        int total = 0;
+        for (T[] a : as) total += a.length;
+        T[] res = Reflection.newInstance(Reflection.getComponentClass(as[0]), total);
+        int head = 0;
+        for (T[] a : as) {
+            System.arraycopy(a, 0, res, head, a.length);
+            head += a.length;
+        }
+        return res;
+    }
+
     public static void fill(int[] a, int v) {
         Arrays.fill(a, v);
     }
 
     public static void fill(int[][] a, int v) {
-        for (int i = 0; i < a.length; i++) {
-            fill(a[i], v);
+        for (int[] ints : a) {
+            fill(ints, v);
         }
     }
 
     public static void fill(int[][][] a, int v) {
-        for (int i = 0; i < a.length; i++) {
-            fill(a[i], v);
+        for (int[][] ints : a) {
+            fill(ints, v);
+        }
+    }
+
+    public static void fill(int[][][][] a, int v) {
+        for (int[][][] ints : a) {
+            fill(ints, v);
         }
     }
 
@@ -57,8 +135,14 @@ public final class ArrayUtil {
     }
 
     public static void fill(long[][][] a, long v) {
-        for (int i = 0; i < a.length; i++) {
-            fill(a[i], v);
+        for (long[][] longs : a) {
+            fill(longs, v);
+        }
+    }
+
+    public static void fill(long[][][][] a, int v) {
+        for (long[][][] longs : a) {
+            fill(longs, v);
         }
     }
 
@@ -67,14 +151,20 @@ public final class ArrayUtil {
     }
 
     public static void fill(double[][] a, double v) {
-        for (int i = 0; i < a.length; i++) {
-            fill(a[i], v);
+        for (double[] doubles : a) {
+            fill(doubles, v);
         }
     }
 
     public static void fill(double[][][] a, double v) {
-        for (int i = 0; i < a.length; i++) {
-            fill(a[i], v);
+        for (double[][] doubles : a) {
+            fill(doubles, v);
+        }
+    }
+
+    public static void fill(double[][][][] a, double v) {
+        for (double[][][] doubles : a) {
+            fill(doubles, v);
         }
     }
 
@@ -83,14 +173,20 @@ public final class ArrayUtil {
     }
 
     public static void fill(boolean[][] a, boolean v) {
-        for (int i = 0; i < a.length; i++) {
-            fill(a[i], v);
+        for (boolean[] booleans : a) {
+            fill(booleans, v);
         }
     }
 
     public static void fill(boolean[][][] a, boolean v) {
-        for (int i = 0; i < a.length; i++) {
-            fill(a[i], v);
+        for (boolean[][] booleans : a) {
+            fill(booleans, v);
+        }
+    }
+
+    public static void fill(boolean[][][][] a, boolean v) {
+        for (boolean[][][] booleans : a) {
+            fill(booleans, v);
         }
     }
 
@@ -106,6 +202,12 @@ public final class ArrayUtil {
 
     public static <T> void fill(T[][][] a, T v) {
         for (T[][] ts : a) {
+            fill(ts, v);
+        }
+    }
+
+    public static <T> void fill(T[][][][] a, T v) {
+        for (T[][][] ts : a) {
             fill(ts, v);
         }
     }
@@ -372,4 +474,5 @@ public final class ArrayUtil {
         }
         return lo;
     }
+
 }

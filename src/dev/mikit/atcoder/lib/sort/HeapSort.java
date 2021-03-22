@@ -1,5 +1,9 @@
 package dev.mikit.atcoder.lib.sort;
 
+import dev.mikit.atcoder.lib.util.function.DoubleComparator;
+import dev.mikit.atcoder.lib.util.function.IntComparator;
+import dev.mikit.atcoder.lib.util.function.LongComparator;
+
 import java.util.Comparator;
 
 public class HeapSort {
@@ -77,6 +81,39 @@ public class HeapSort {
     }
 
     // in heap [low, high), insert val into i
+    private static void heapfy(int[] a, int low, int high, int i, int val, IntComparator comparator) {
+        int child = 2 * i - low + 1;
+        while (child < high) {
+            if (child + 1 < high && comparator.compare(a[child], a[child + 1]) < 0) {
+                child++;
+            }
+            if (comparator.compare(val, a[child]) >= 0) {
+                break;
+            }
+            a[i] = a[child];
+            i = child;
+            child = 2 * i - low + 1;
+        }
+        a[i] = val;
+    }
+
+    static void sort(int[] a, int low, int high, IntComparator comparator) {
+        for (int p = (high + low) / 2 - 1; p >= low; p--) {
+            heapfy(a, low, high, p, a[p], comparator);
+        }
+        while (high > low) {
+            high--;
+            int pval = a[high];
+            a[high] = a[low];
+            heapfy(a, low, high, low, pval, comparator);
+        }
+    }
+
+    public static void sort(int[] a, IntComparator comparator) {
+        sort(a, 0, a.length, comparator);
+    }
+
+    // in heap [low, high), insert val into i
     private static void heapfy(long[] a, int low, int high, int i, long val) {
         int child = 2 * i - low + 1;
         while (child < high) {
@@ -110,6 +147,39 @@ public class HeapSort {
     }
 
     // in heap [low, high), insert val into i
+    private static void heapfy(long[] a, int low, int high, int i, long val, LongComparator comparator) {
+        int child = 2 * i - low + 1;
+        while (child < high) {
+            if (child + 1 < high && comparator.compare(a[child], a[child + 1]) < 0) {
+                child++;
+            }
+            if (comparator.compare(val, a[child]) >= 0) {
+                break;
+            }
+            a[i] = a[child];
+            i = child;
+            child = 2 * i - low + 1;
+        }
+        a[i] = val;
+    }
+
+    static void sort(long[] a, int low, int high, LongComparator comparator) {
+        for (int p = (high + low) / 2 - 1; p >= low; p--) {
+            heapfy(a, low, high, p, a[p], comparator);
+        }
+        while (high > low) {
+            high--;
+            long pval = a[high];
+            a[high] = a[low];
+            heapfy(a, low, high, low, pval, comparator);
+        }
+    }
+
+    public static void sort(long[] a, LongComparator comparator) {
+        sort(a, 0, a.length, comparator);
+    }
+
+    // in heap [low, high), insert val into i
     private static void heapfy(double[] a, int low, int high, int i, double val) {
         int child = 2 * i - low + 1;
         while (child < high) {
@@ -140,6 +210,39 @@ public class HeapSort {
 
     public static void sort(double[] a) {
         sort(a, 0, a.length);
+    }
+
+    // in heap [low, high), insert val into i
+    private static void heapfy(double[] a, int low, int high, int i, double val, DoubleComparator comparator) {
+        int child = 2 * i - low + 1;
+        while (child < high) {
+            if (child + 1 < high && comparator.compare(a[child], a[child + 1]) < 0) {
+                child++;
+            }
+            if (comparator.compare(val, a[child]) >= 0) {
+                break;
+            }
+            a[i] = a[child];
+            i = child;
+            child = 2 * i - low + 1;
+        }
+        a[i] = val;
+    }
+
+    static void sort(double[] a, int low, int high, DoubleComparator comparator) {
+        for (int p = (high + low) / 2 - 1; p >= low; p--) {
+            heapfy(a, low, high, p, a[p], comparator);
+        }
+        while (high > low) {
+            high--;
+            double pval = a[high];
+            a[high] = a[low];
+            heapfy(a, low, high, low, pval, comparator);
+        }
+    }
+
+    public static void sort(double[] a, DoubleComparator comparator) {
+        sort(a, 0, a.length, comparator);
     }
 
 }

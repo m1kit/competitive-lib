@@ -12,6 +12,7 @@ public class LongChineseRemainder {
     private long remainder = 0, modulo = 1;
 
     public void grow(long b2, long m2) {
+        b2 %= m2;
         Vec3l sol = LongEuclidSolver.solve(modulo, m2);
         long p = sol.x, d = sol.z;
         if ((b2 - remainder) % d != 0) {

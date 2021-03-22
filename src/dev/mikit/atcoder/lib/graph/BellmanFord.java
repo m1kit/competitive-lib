@@ -55,5 +55,28 @@ public class BellmanFord {
         }
         return distance[dst];
     }
+
+    public long[] shortestPath(int src, boolean detectNegativeLoop) {
+        Arrays.fill(distance, Long.MAX_VALUE);
+        distance[src] = 0;
+        boolean updated = true;
+        for (int i = 0; i < 2 * nodes && updated; i++) {
+            updated = false;
+            for (Edge e : edges) {
+                if (distance[e.from] < Long.MAX_VALUE && distance[e.to] > distance[e.from] + e.cost) {
+                    updated = true;
+                    distance[e.to] = distance[e.from] + e.cost;
+                }
+            }
+        }
+        if (detectNegativeLoop) {
+            for (Edge edge : edges) {
+                if (distance[edge.from] + edge.cost < distance[edge.to]) {
+                    throw new RuntimeException("negative loop");
+                }
+            }
+        }
+        return distance;
+    }
 }
 

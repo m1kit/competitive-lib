@@ -2,6 +2,9 @@ package dev.mikit.atcoder.lib.sort;
 
 import dev.mikit.atcoder.lib.math.BitMath;
 import dev.mikit.atcoder.lib.meta.Verified;
+import dev.mikit.atcoder.lib.util.function.DoubleComparator;
+import dev.mikit.atcoder.lib.util.function.IntComparator;
+import dev.mikit.atcoder.lib.util.function.LongComparator;
 
 import java.util.Comparator;
 
@@ -62,6 +65,27 @@ public class IntroSort {
         }
     }
 
+    static void sort(int[] a, int low, int high, int maxDepth, IntComparator comparator) {
+        while (high - low > INSERTIONSORT_THRESHOLD) {
+            if (maxDepth-- == 0) {
+                HeapSort.sort(a, low, high, comparator);
+                return;
+            }
+            int cut = QuickSort.step(a, low, high, comparator);
+            sort(a, cut, high, maxDepth, comparator);
+            high = cut;
+        }
+        InsertionSort.sort(a, low, high, comparator);
+    }
+
+    public static void sort(int[] a, IntComparator comparator) {
+        if (a.length <= INSERTIONSORT_THRESHOLD) {
+            InsertionSort.sort(a, 0, a.length, comparator);
+        } else {
+            sort(a, 0, a.length, 2 * BitMath.msb(a.length), comparator);
+        }
+    }
+
     static void sort(long[] a, int low, int high, int maxDepth) {
         while (high - low > INSERTIONSORT_THRESHOLD) {
             if (maxDepth-- == 0) {
@@ -84,6 +108,27 @@ public class IntroSort {
         }
     }
 
+    static void sort(long[] a, int low, int high, int maxDepth, LongComparator comparator) {
+        while (high - low > INSERTIONSORT_THRESHOLD) {
+            if (maxDepth-- == 0) {
+                HeapSort.sort(a, low, high, comparator);
+                return;
+            }
+            int cut = QuickSort.step(a, low, high, comparator);
+            sort(a, cut, high, maxDepth, comparator);
+            high = cut;
+        }
+        InsertionSort.sort(a, low, high, comparator);
+    }
+
+    public static void sort(long[] a, LongComparator comparator) {
+        if (a.length <= INSERTIONSORT_THRESHOLD) {
+            InsertionSort.sort(a, 0, a.length, comparator);
+        } else {
+            sort(a, 0, a.length, 2 * BitMath.msb(a.length), comparator);
+        }
+    }
+
     static void sort(double[] a, int low, int high, int maxDepth) {
         while (high - low > INSERTIONSORT_THRESHOLD) {
             if (maxDepth-- == 0) {
@@ -102,6 +147,27 @@ public class IntroSort {
             InsertionSort.sort(a, 0, a.length);
         } else {
             sort(a, 0, a.length, 2 * BitMath.msb(a.length));
+        }
+    }
+
+    static void sort(double[] a, int low, int high, int maxDepth, DoubleComparator comparator) {
+        while (high - low > INSERTIONSORT_THRESHOLD) {
+            if (maxDepth-- == 0) {
+                HeapSort.sort(a, low, high, comparator);
+                return;
+            }
+            int cut = QuickSort.step(a, low, high, comparator);
+            sort(a, cut, high, maxDepth, comparator);
+            high = cut;
+        }
+        InsertionSort.sort(a, low, high, comparator);
+    }
+
+    public static void sort(double[] a, DoubleComparator comparator) {
+        if (a.length <= INSERTIONSORT_THRESHOLD) {
+            InsertionSort.sort(a, 0, a.length, comparator);
+        } else {
+            sort(a, 0, a.length, 2 * BitMath.msb(a.length), comparator);
         }
     }
 
